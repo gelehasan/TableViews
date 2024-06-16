@@ -1,27 +1,49 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { Cell, Section, TableView } from 'react-native-tableview-simple';
 export default function App() {
 
-  let tableData = [{"title":"Row 1"}, {"title":"Row 2"}] ;
+  let tableData = [{ "header": "Section 1", "cells": [{ "title": "Cell 1" }, { "title": "Cell 2 " }] }];
+
+  const Customcell = (props) => (
+    <Cell
+      {...props}
+      cellContentView={
+        <View>
+          <Text>{props.customLabel}</Text>
+        </View>
+      }
+    />
+
+  )
   return (
     //For the content to not touch the top notch
-    <SafeAreaView> 
-       {/** for scrolling behavior */}
-      <ScrollView style={{height:"100%"}}> 
-    <TableView>
-      <Section>
-        {
-          tableData.map((x)=>(
-            <Cell
-                title={x.title}
-            />
-          ))
-        }
+    <SafeAreaView>
+      {/** for scrolling behavior */}
+      <ScrollView style={{ height: "100%" }}>
+        <TableView>
 
-      </Section>
-    </TableView>
-    </ScrollView>
+          {
+            tableData.map((section, i) => (
+              <Section
+                header={section.header}
+              >
+                {
+                  section.cells.map((cell, i) => (
+                    <Customcell
+                      customLabel={cell.title}
+                    />
+                  ))
+                }
+
+
+              </Section>
+            ))
+          }
+
+
+        </TableView>
+      </ScrollView>
     </SafeAreaView>
 
   );
